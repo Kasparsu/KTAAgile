@@ -2,31 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Order;
 use App\Product;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ProductController extends ResourceController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    public static $model = Product::class;
+
+    public function categoryProducts() {
+        return Order::find(1)->products;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    public function getPdf(){
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml('Hello world');
+        $dompdf->render();
 
+        $dompdf->stream("dompdf_out.pdf", ["Attachment" => false]);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -34,17 +29,6 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product)
     {
         //
     }
@@ -72,14 +56,4 @@ class ProductController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Product $product)
-    {
-        //
-    }
 }

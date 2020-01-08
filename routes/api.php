@@ -18,8 +18,17 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('/products/pimped', 'ProductController@categoryProducts');
+Route::resources([
+    'posts' => 'PostController',
+    'products' => 'ProductController',
+    'orders' => 'OrderController',
+    'orderitem' => 'OrderItemController',
+]);
 
-Route::resources(['posts' => 'PostController']);
+Route::post('/orders/add/{itemId}/{orderId}', 'OrderController@addItem');
+Route::get('/orders/order/{orderId}', 'OrderController@setStatusOrdered');
+Route::get('/orders/cart/{userId}', 'OrderController@getCart');
 
 //Route::get('/posts', 'PostController@index');
 //Route::get('/posts/{post}', 'PostController@show');
